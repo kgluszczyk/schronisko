@@ -1,10 +1,12 @@
 package pl.comarch.android.schronisko
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import kotlinx.parcelize.Parcelize
@@ -20,11 +22,23 @@ class MainActivity : AppCompatActivity() {
         Log.d("LIFECYCLE", "onCreate-$this")
         setContentView(R.layout.activity_main)
         val logo = findViewById<ImageView>(R.id.logo)
-
         logo.setOnClickListener {
             clicksCount++
             Log.d("CLICK", "Click!$clicksCount")
             Toast.makeText(this, DataSource.getZwierzaki().toString(), Toast.LENGTH_SHORT).show()
+        }
+
+        findViewById<Button>(R.id.cta).run {
+            setOnClickListener {
+                Intent(this@MainActivity, DetailedActivity::class.java).apply {
+                    putExtra(
+                        DetailedActivity.zwierzKey,
+                        DataSource.getZwierzaki().shuffled().first()
+                    )
+                }.let {
+                    startActivity(it)
+                }
+            }
         }
     }
 

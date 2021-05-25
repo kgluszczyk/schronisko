@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.parcelize.Parcelize
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +22,11 @@ class MainActivity : AppCompatActivity() {
         clicksCount = savedInstanceState?.getParcelable<State>(stateKey)?.clicksCount ?: clicksCount
         Log.d("LIFECYCLE", "onCreate-$this")
         setContentView(R.layout.activity_main)
+
+        findViewById<RecyclerView>(R.id.listeZwierzat).apply {
+            adapter = ZwierzakiAdapter(zwierzaki = DataSource.getZwierzaki())
+        }
+
         val logo = findViewById<ImageView>(R.id.logo)
         logo.setOnClickListener {
             clicksCount++

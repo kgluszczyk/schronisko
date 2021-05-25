@@ -38,14 +38,12 @@
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="Domowe schronisko" />
 
-    <EditText
-        android:id="@+id/nazwaZwierza"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listeZwierzat"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:hint="Imię zwierza"
-        android:inputType="textPersonName"
-        android:textSize="16sp"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/cta"
         app:layout_constraintEnd_toEndOf="@id/guideline_v_2"
         app:layout_constraintStart_toStartOf="@id/guideline_v_1"

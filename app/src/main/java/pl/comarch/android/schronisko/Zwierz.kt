@@ -5,4 +5,4 @@ import androidx.annotation.DrawableRes
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Zwierz(val name:String, @DrawableRes val imageId: Int) : Parcelable
+data class Zwierz(val name:String, @DrawableRes val imageId: Int, val opis: String = "") : Parcelable

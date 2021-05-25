@@ -9,9 +9,11 @@ import android.widget.ImageView
 class MainActivity : AppCompatActivity() {
 
     var clicksCount = 0
+    val stateKey = "StateKey"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        clicksCount = savedInstanceState?.getInt(stateKey) ?: clicksCount
         Log.d("LIFECYCLE", "onCreate-$this")
         setContentView(R.layout.activity_main)
         val logo = findViewById<ImageView>(R.id.logo)
@@ -21,6 +23,11 @@ class MainActivity : AppCompatActivity() {
             Log.d("CLICK", "Click!$clicksCount")
         }
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(stateKey, clicksCount)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onStart() {

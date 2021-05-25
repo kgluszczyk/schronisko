@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -55,7 +54,19 @@ class MainActivity : AppCompatActivity() {
     private fun fetchData() {
         NetworkService.zwierzakiService.getZwierzaki().enqueue(object: Callback<List<ZwierzDTO>> {
             override fun onResponse(call: Call<List<ZwierzDTO>>, response: Response<List<ZwierzDTO>>) {
-                Log.d("RESTFUL API", response.body().toString())
+                val zwierzaki = response.body()
+                Log.d("RESTFUL API", zwierzaki.toString())
+                //Użyć Korutyny, używanie wątków może wydawać się dobrym rozwiązaniem, ale odpalając go, nie mamy nad nim większej kontroli(cancelowanie)
+                Thread {
+                    zwierzaki?.let {
+                        App.database.zwierzakiDao().delete()
+                        App.database.zwierzakiDao().insert(it)
+                    }
+                    runOnUiThread {
+                        Toast.makeText(this@MainActivity, DataSource.getZwierzaki().toString(), Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }.start()
             }
 
             override fun onFailure(call: Call<List<ZwierzDTO>>, t: Throwable) {

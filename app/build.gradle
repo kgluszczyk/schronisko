@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     //[PARCELIZACJA] Wlaczenie parcelizacji kotlinowej
     id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -58,4 +59,13 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
 
     implementation "com.squareup.okhttp3:logging-interceptor:3.14.6"
+
+
+    //[ROOM] ZALEZNOSCI
+    def room_version = "2.2.6"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    implementation "androidx.room:room-ktx:$room_version"
 }

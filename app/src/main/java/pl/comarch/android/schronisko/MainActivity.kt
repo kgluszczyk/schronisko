@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        clicksCount = savedInstanceState?.getInt(stateKey) ?: clicksCount
+        clicksCount = savedInstanceState?.getParcelable<Zwierz>(stateKey)?.name?.toInt() ?: clicksCount
         Log.d("LIFECYCLE", "onCreate-$this")
         setContentView(R.layout.activity_main)
         val logo = findViewById<ImageView>(R.id.logo)
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(stateKey, clicksCount)
+        outState.putParcelable(stateKey, Zwierz(name = "$clicksCount"))
         super.onSaveInstanceState(outState)
     }
 

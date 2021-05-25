@@ -6,3 +6,5 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Zwierz(val name:String, @DrawableRes val imageId: Int, val opis: String = "") : Parcelable
+
+data class ZwierzDTO(val name:String, val imageUrl: String)

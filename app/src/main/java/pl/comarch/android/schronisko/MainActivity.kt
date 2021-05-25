@@ -11,6 +11,9 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.parcelize.Parcelize
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,6 +49,20 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        fetchData()
+    }
+
+    private fun fetchData() {
+        NetworkService.zwierzakiService.getZwierzaki().enqueue(object: Callback<List<ZwierzDTO>> {
+            override fun onResponse(call: Call<List<ZwierzDTO>>, response: Response<List<ZwierzDTO>>) {
+                Log.d("RESTFUL API", response.body().toString())
+            }
+
+            override fun onFailure(call: Call<List<ZwierzDTO>>, t: Throwable) {
+                Log.e("RESTFUL API", "Failed to fetch zwierzaki", t)
+            }
+
+        })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

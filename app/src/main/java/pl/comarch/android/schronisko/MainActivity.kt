@@ -2,9 +2,12 @@ package pl.comarch.android.schronisko
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
+import kotlinx.parcelize.Parcelize
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        clicksCount = savedInstanceState?.getParcelable<Zwierz>(stateKey)?.name?.toInt() ?: clicksCount
+        clicksCount = savedInstanceState?.getParcelable<State>(stateKey)?.clicksCount ?: clicksCount
         Log.d("LIFECYCLE", "onCreate-$this")
         setContentView(R.layout.activity_main)
         val logo = findViewById<ImageView>(R.id.logo)
@@ -21,12 +24,12 @@ class MainActivity : AppCompatActivity() {
         logo.setOnClickListener {
             clicksCount++
             Log.d("CLICK", "Click!$clicksCount")
+            Toast.makeText(this, DataSource.getZwierzaki().toString(), Toast.LENGTH_SHORT).show()
         }
-
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(stateKey, Zwierz(name = "$clicksCount"))
+        outState.putParcelable(stateKey, State(clicksCount = clicksCount))
         super.onSaveInstanceState(outState)
     }
 
@@ -55,3 +58,6 @@ class MainActivity : AppCompatActivity() {
         Log.d("LIFECYCLE", "onDestroy")
     }
 }
+
+@Parcelize
+data class State(val clicksCount: Int = 0) : Parcelable
